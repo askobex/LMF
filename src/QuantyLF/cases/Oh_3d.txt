@@ -1,0 +1,21 @@
+ion - coordination number of central ion
+oxy - oxidation state of central ion
+Gamma1
+Hex
+tenDq - Splitting of d-orbitals in an octahedral field, differentiating between e_g and t_2g orbitals. 
+tenDqF
+zeta_2p
+zeta_3d
+Xzeta_3d
+Fdd
+XFdd
+Fpd
+Gpd
+Udd
+Upd_Udd
+tenDqL
+Delta
+VfScale
+
+XASBroadening: general Gaussian and multiple Lorentzian broadening of XAS spectra
+RIXSBroadening: multiple Lorentzian broadening of RIXS spectra

@@ -1,0 +1,4 @@
+include src/QuantyLF/cases/*.txt
+include src/QuantyLF/cases/*.lua
+include src/QuantyLF/cases/utils/*.lua
+include src/QuantyLF/cases/utils/*.py

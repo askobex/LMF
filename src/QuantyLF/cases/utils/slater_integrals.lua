@@ -201,15 +201,15 @@ function get_slater_integrals(ion, oxy)
         elseif oxy == 3 then
             nd = 2
             zeta_3d=0.022;
-            F2dd=8.962;
-            F4dd=5.577;
-            zeta_2p=4.650;
-            F2pd=5.351;
-            G1pd=3.793;
-            G3pd=2.154;
-            Xzeta_3d=0.031;
-            XF2dd=9.876;
-            XF4dd=6.153;
+            F2dd=10.127;
+            F4dd=6.354;
+            zeta_2p=4.649;
+            F2pd=6.057;
+            G1pd=4.392;
+            G3pd=2.496;
+            Xzeta_3d=0.036;
+            XF2dd=10.974;
+            XF4dd=6.888;
         elseif oxy == 4 then
             nd = 1
             zeta_3d=0.031;
@@ -217,14 +217,14 @@ function get_slater_integrals(ion, oxy)
             F4dd=0.000;
             zeta_2p=4.650;
             F2pd=6.758;
-            G1pd=5.012;
-            G3pd=2.852;
+            G1pd=5.014;
+            G3pd=2.853;
             Xzeta_3d=0.042;
             XF2dd=11.965;
             XF4dd=7.554;
         elseif oxy == 5 then
             nd = 0
-            zeta_3d=0.000;
+            zeta_3d=0.031;
             F2dd=0.000;
             F4dd=0.000;
             zeta_2p=4.652;

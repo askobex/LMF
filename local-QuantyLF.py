@@ -4,7 +4,7 @@ from QuantyLF.QuantyLF import QuantyLF
 # create new instance
 quantyLF = QuantyLF()
 # set custom quanty command
-quantyLF.set_quanty_command('/Users/phr542/Documents/Quanty/Quanty_macOS', 'Darwin')
+quantyLF.set_quanty_command('/PATH', 'Name')
 
 # load experimental data including excitation energies
 quantyLF.load_exp_xas('XAS_Exp.dat')

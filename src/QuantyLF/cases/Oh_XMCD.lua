@@ -43,27 +43,7 @@ T = 1
 Bx      = 0.000001
 By      = 0.000001
 Bz      = 0.000001
-----overwrite init variables with ParVals values
-for i = 1, #pars do
-    if (pars[i].name == "T") then
-        T = pars[i].val
-    end
-    if (pars[i].name == "Bx") then
-        Bx = pars[i].val
-    end
-    if (pars[i].name == "By") then
-        By = pars[i].val
-    end
-    if (pars[i].name == "Bz") then
-        Bz = pars[i].val
-    end
-end
 
--- Bringing everything to the same units (eV)
-T = T * EnergyUnits.Kelvin.value
-Bx = Bx * EnergyUnits.Tesla.value
-By = By * EnergyUnits.Tesla.value
-Bz = Bz * EnergyUnits.Tesla.value
 -- Exchange energy [ev]
 Hx      = 0.120
 Hy      = 0.120
@@ -169,6 +149,28 @@ Vt2g = -0.4 * tenDq
 
 Vt2gF = Vt2g * VfScale
 VegF = Veg * VfScale
+
+----overwrite init variables with ParVals values
+for i = 1, #pars do
+    if (pars[i].name == "T") then
+        T = pars[i].val
+    end
+    if (pars[i].name == "Bx") then
+        Bx = pars[i].val
+    end
+    if (pars[i].name == "By") then
+        By = pars[i].val
+    end
+    if (pars[i].name == "Bz") then
+        Bz = pars[i].val
+    end
+end
+
+-- Bringing everything to the same units (eV)
+T = T * EnergyUnits.Kelvin.value
+Bx = Bx * EnergyUnits.Tesla.value
+By = By * EnergyUnits.Tesla.value
+Bz = Bz * EnergyUnits.Tesla.value
 
 OppSx_3d = NewOperator("Sx", NF, IndexUp_3d, IndexDn_3d);
 OppSy_3d = NewOperator("Sy", NF, IndexUp_3d, IndexDn_3d);

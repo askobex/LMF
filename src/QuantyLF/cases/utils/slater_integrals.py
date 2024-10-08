@@ -166,7 +166,7 @@ def get_slater_integrals(ion, oxy):
             
         
 
-     elif ion == 23: ## Crispy
+    elif ion == 23: ## Crispy
         if oxy == 2:
             nd = 3
             zeta_3d = 0.022
@@ -258,7 +258,7 @@ def get_slater_integrals(ion, oxy):
             XF4dd=0.000
         else:
             print("No data available for this ion and valence configuration...")
-
+            
     elif ion == 21:
         
         zeta_3d = 0.010

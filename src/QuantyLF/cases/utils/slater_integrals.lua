@@ -224,7 +224,7 @@ function get_slater_integrals(ion, oxy)
             XF4dd=7.554;
         elseif oxy == 5 then
             nd = 0
-            zeta_3d=0.031;
+            zeta_3d=0.000;
             F2dd=0.000;
             F4dd=0.000;
             zeta_2p=4.652;

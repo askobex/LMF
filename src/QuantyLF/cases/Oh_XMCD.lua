@@ -38,7 +38,12 @@ Emax1 = 20
 NE1 = 120
 Gamma1 = 1.0
 -- Temperature [Kelvin]
-T = 10
+T = 1
+for i = 1, #pars do
+    if (pars[i].name == "temp") then
+        T = pars[i].val
+    end
+end
 -- For perpendicular use this
 -- External magnetic field Bext [Tesla]
 Bx      = 0.000001

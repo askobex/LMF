@@ -205,7 +205,7 @@ def get_slater_integrals(ion, oxy):
             XF4dd=7.554
         elif oxy == 5:  ## Crispy
             nd = 0
-            zeta_3d = 0.031
+            zeta_3d = 0.000
             F2dd = 0.000
             F4dd = 0.000
             zeta_2p = 4.652

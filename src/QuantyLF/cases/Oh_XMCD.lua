@@ -39,16 +39,26 @@ NE1 = 120
 Gamma1 = 1.0
 -- Temperature [Kelvin]
 T = 1
---for i = 1, #pars do
- --   if (pars[i].name == "temp") then
-  --      T = pars[i].val
-   -- end
---end
--- For perpendicular use this
--- External magnetic field Bext [Tesla]
+-- External magnetic field Bext [Tesla]i
 Bx      = 0.000001
 By      = 0.000001
-Bz      = 9.000001
+Bz      = 0.000001
+----overwrite init variables with ParVals values
+for i = 1, #pars do
+    if (pars[i].name == "T") then
+        T = pars[i].val
+    end
+    if (pars[i].name == "Bx") then
+        Bx = pars[i].val
+    end
+    if (pars[i].name == "By") then
+        By = pars[i].val
+    end
+    if (pars[i].name == "Bz") then
+        Bz = pars[i].val
+    end
+end
+
 -- Bringing everything to the same units (eV)
 T = T * EnergyUnits.Kelvin.value
 Bx = Bx * EnergyUnits.Tesla.value

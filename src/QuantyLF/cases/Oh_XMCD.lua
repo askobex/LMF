@@ -126,21 +126,7 @@ for i = 1, #pars do
 end
 
 -- Configure slater integrals
---nd, zeta_3d, F2dd, F4dd, zeta_2p, F2pd, G1pd, G3pd, Xzeta_3d, XF2dd, XF4dd = get_slater_integrals(ion, oxy)
-if ion==24 then
-if oxy == 2 then nd = 4
-zeta_3d=0.030  ; F2dd=9.649 ; F4dd=6.002
-zeta_2p=5.668 ; F2pd=5.841  ; G1pd=4.202 ; G3pd=2.388
-Xzeta_3d=0.041  ; XF2dd=10.522 ; XF4dd=6.552
-    elseif oxy == 3 then nd = 3
-       zeta_3d=0.035  ; F2dd=10.777 ; F4dd=6.755
-       zeta_2p=5.667 ; F2pd=6.526  ; G1pd=4.788 ; G3pd=2.722
-       Xzeta_3d=0.047  ; XF2dd=11.596 ; XF4dd=7.270
-    elseif oxy == 4 then nd = 2 end
-else
-print("Could not recognize the ion name...")
-os.exit()
-end
+nd, zeta_3d, F2dd, F4dd, zeta_2p, F2pd, G1pd, G3pd, Xzeta_3d, XF2dd, XF4dd = get_slater_integrals(ion, oxy)
 -- Setup the hybridization
 Vt2g = 0
 Veg = 0

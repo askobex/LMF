@@ -175,7 +175,7 @@ def get_slater_integrals(ion, oxy):
             zeta_2p = 4.650
             F2pd = 5.351
             G1pd = 3.793
-            G3pd  2.154
+            G3pd = 2.154
             Xzeta_3d = 0.031
             XF2dd = 9.876
             XF4dd = 6.153

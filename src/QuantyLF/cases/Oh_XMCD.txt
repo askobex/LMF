@@ -16,6 +16,9 @@ Upd_Udd
 tenDqL
 Delta
 VfScale
-
+T
+Bx
+By
+Bz
 XASBroadening: general Gaussian and multiple Lorentzian broadening of XAS spectra
 RIXSBroadening: multiple Lorentzian broadening of RIXS spectra

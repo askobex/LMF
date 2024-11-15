@@ -1,1 +1,9 @@
-
+@software{LFMT_My_Research_Software_2024,
+  author = {Ufondu, Peter and Meier, Carl Magnus},
+  doi = {10.5281/zenodo.peter},
+  month = {12},
+  title = {{My Research Software}},
+  url = {https://github.com/askobex/LMF/},
+  version = {1.0.4},
+  year = {2024}
+}

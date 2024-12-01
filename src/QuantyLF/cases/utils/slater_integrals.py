@@ -196,7 +196,7 @@ def get_slater_integrals(ion, oxy):
             zeta_3d=0.031
             F2dd=0.000
             F4dd=0.000
-            zeta_2p=4.650
+            zeta_2p=4.650 ##Cripsy
             F2pd=6.758
             G1pd=5.014
             G3pd=2.853

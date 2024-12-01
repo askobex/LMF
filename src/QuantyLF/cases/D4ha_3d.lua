@@ -137,18 +137,6 @@ for i = 1, #pars do
     if (pars[i].name == "DtF") then
         DtFs = pars[i].val
     end
-    if (pars[i].name == "Vb1g") then
-        Vb1g = pars[i].val
-    end
-    if (pars[i].name == "Va1g") then
-        Va1g = pars[i].val
-    end
-    if (pars[i].name == "Vb2g") then
-        Vb2g = pars[i].val
-    end
-    if (pars[i].name == "Veg") then
-        Veg = pars[i].val
-    end
     if (pars[i].name == "VfScale") then
         VfScale = pars[i].val
     end
@@ -160,6 +148,11 @@ end
 tenDqF = tenDqFs * tenDq
 DsF = DsFs * Ds
 DtF = DtFs * Dt
+
+Vb1g = 0.6 * tenDq + 2 * Ds - Dt
+Va1g = 0.6 * tenDq - 2 * Ds - 6 * Dt
+Vb2g = -0.4 * tenDq + 2 * Ds - Dt
+Veg = -0.4 * tenDq - Ds + 4 * Dt
 
 Vb1gF = Vb1g * VfScale
 Va1gF = Va1g * VfScale
@@ -411,7 +404,7 @@ Hamiltonian = HExchange + F0dd * OppF0_3d + F2dd * OppF2_3d + F4dd * OppF4_3d + 
 XASHamiltonian = XF0dd * OppF0_3d + XF2dd * OppF2_3d + XF4dd * OppF4_3d + tenDqF * OpptenDq_3d + DsF * OppDs + DtF *
                      OppDt + zeta_3d * Oppldots_3d + Bz * (2 * OppSz_3d + OppLz_3d) + Hz * OppSz_3d + tenDqL *
                      OpptenDq_Ld + VegF * OppVeg + Vb1gF * OppVb1g + Va1gF * OppVa1g + Vb2gF * OppVb2g + edfinal *
-                     OppN_3d + eLfinal * OppN_Ld+ eLfinal * OppN_Ld2 + epfinal * OppN_2p + zeta_2p * Oppcldots + F0pd * OppUpdF0 + F2pd *
+                     OppN_3d + eLfinal * OppN_Ld + eLfinal * OppN_Ld2 + epfinal * OppN_2p + zeta_2p * Oppcldots + F0pd * OppUpdF0 + F2pd *
                      OppUpdF2 + G1pd * OppUpdG1 + G3pd * OppUpdG3;
 
 -- we now can create the lowest Npsi eigenstates:

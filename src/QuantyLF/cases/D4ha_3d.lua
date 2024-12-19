@@ -220,7 +220,7 @@ OppJy = OppJy_3d + OppJy_Ld
 OppJz = OppJz_3d + OppJz_Ld
 OppJsqr = OppJx * OppJx + OppJy * OppJy + OppJz * OppJz
 
--- define the coulomb operator
+-- define the coulomb operators
 -- we here define the part depending on F0 seperately from the part depending on F2
 -- when summing we can put in the numerical values of the slater integrals
 

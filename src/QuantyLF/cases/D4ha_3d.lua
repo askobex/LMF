@@ -264,8 +264,8 @@ OppN_3d = OppNUp_3d + OppNDn_3d
 OppNUp_Ld = NewOperator("Number", NF, IndexUp_Ld, IndexUp_Ld, {1, 1, 1, 1, 1})
 OppNDn_Ld = NewOperator("Number", NF, IndexDn_Ld, IndexDn_Ld, {1, 1, 1, 1, 1})
 OppN_Ld = OppNUp_Ld + OppNDn_Ld
-OppNUp_Ld2 = NewOperator("Number", NF, IndexUp_Ld, IndexUp_Ld, {3, 3, 3, 3, 3})
-OppNDn_Ld2 = NewOperator("Number", NF, IndexDn_Ld, IndexDn_Ld, {3, 3, 3, 3, 3})
+OppNUp_Ld2 = NewOperator("Number", NF, IndexUp_Ld, IndexUp_Ld, {2, 2, 2, 2, 2})
+OppNDn_Ld2 = NewOperator("Number", NF, IndexDn_Ld, IndexDn_Ld, {2, 2, 2, 2, 2})
 OppN_Ld2 = OppNUp_Ld2 + OppNDn_Ld2
 
 -- Number of electrons in each of the 3d orbitals

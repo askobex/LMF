@@ -264,8 +264,8 @@ OppN_3d = OppNUp_3d + OppNDn_3d
 OppNUp_Ld = NewOperator("Number", NF, IndexUp_Ld, IndexUp_Ld, {1, 1, 1, 1, 1})
 OppNDn_Ld = NewOperator("Number", NF, IndexDn_Ld, IndexDn_Ld, {1, 1, 1, 1, 1})
 OppN_Ld = OppNUp_Ld + OppNDn_Ld
-OppNUp_Ld2 = NewOperator("Number", NF, IndexUp_Ld, IndexUp_Ld, {4, 4, 4, 4, 4})
-OppNDn_Ld2 = NewOperator("Number", NF, IndexDn_Ld, IndexDn_Ld, {4, 4, 4, 4, 4})
+OppNUp_Ld2 = NewOperator("Number", NF, IndexUp_Ld, IndexUp_Ld, {1, 1, 1, 1, 1})
+OppNDn_Ld2 = NewOperator("Number", NF, IndexDn_Ld, IndexDn_Ld, {1, 1, 1, 1, 1})
 OppN_Ld2 = OppNUp_Ld2 + OppNDn_Ld2
 
 -- Number of electrons in each of the 3d orbitals
@@ -469,7 +469,7 @@ if (doXAS) then
         {{"Emin", -10}, {"Emax", 20}, {"NE", 2000}, {"Gamma", 0.0}, XASRestrictions});
     Spectra_z = CreateSpectra(XASHamiltonian, TXASz, psiList[1],
         {{"Emin", -10}, {"Emax", 20}, {"NE", 2000}, {"Gamma", 0.0}, XASRestrictions});
-    XASSpectra = 1 / 2 * (Spectra_x + Spectra_y + Spectra_z)
+    XASSpectra = 1 / 3 * (Spectra_x + Spectra_y + Spectra_z)
     -- workaround for case where only Gaussian broadening is used ()
     if #XAS_Broad == 0 then
         XAS_Broad = {{0, 0}}

@@ -469,7 +469,7 @@ if (doXAS) then
         {{"Emin", -10}, {"Emax", 20}, {"NE", 2000}, {"Gamma", 0.1}, XASRestrictions});
     Spectra_z = CreateSpectra(XASHamiltonian, TXASz, psiList[1],
         {{"Emin", -10}, {"Emax", 20}, {"NE", 2000}, {"Gamma", 0.1}, XASRestrictions});
-    XASSpectra = 1 / 2 * (Spectra_x + Spectra_y + Spectra_z)
+    XASSpectra = 1 / 3 * (Spectra_x + Spectra_y + Spectra_z)
     -- workaround for case where only Gaussian broadening is used ()
     if #XAS_Broad == 0 then
         XAS_Broad = {{0, 0}}

@@ -109,6 +109,7 @@ Veg = 0
 
 -- setup initial parameters for fitting values to initialize variables
 Hex = 0
+sigma = 0
 tenDq = 1
 tenDqFs = 0
 Ds = 0
@@ -142,6 +143,9 @@ for i = 1, #pars do
     end
     if (pars[i].name == "Hex") then
         Hex = pars[i].val
+    end
+    if (pars[i].name == "sigma") then
+        sigma = pars[i].val
     end
 end
 
@@ -399,12 +403,12 @@ HExchange = (Hex * HexDir[1] / HexDirNorm) * OppSx + (Hex * HexDir[2] / HexDirNo
 
 Hamiltonian = HExchange + F0dd * OppF0_3d + F2dd * OppF2_3d + F4dd * OppF4_3d + tenDq * OpptenDq_3d + Ds * OppDs + Dt *
                   OppDt + zeta_3d * Oppldots_3d + Bz * (2 * OppSz_3d + OppLz_3d) + Hz * OppSz_3d + tenDqL * OpptenDq_Ld +
-                  Veg * OppVeg + Vb1g * OppVb1g + Va1g * OppVa1g + Vb2g * OppVb2g + ed * OppN_3d + eL * OppN_Ld + eL * OppN_Ld2;
+                  Veg * OppVeg + Vb1g * OppVb1g + Va1g * OppVa1g + Vb2g * OppVb2g + ed * OppN_3d + eL * OppN_Ld + eL * OppN_Ld2 * sigma;
 
 XASHamiltonian = XF0dd * OppF0_3d + XF2dd * OppF2_3d + XF4dd * OppF4_3d + tenDqF * OpptenDq_3d + DsF * OppDs + DtF *
                      OppDt + zeta_3d * Oppldots_3d + Bz * (2 * OppSz_3d + OppLz_3d) + Hz * OppSz_3d + tenDqL *
                      OpptenDq_Ld + VegF * OppVeg + Vb1gF * OppVb1g + Va1gF * OppVa1g + Vb2gF * OppVb2g + edfinal *
-                     OppN_3d + eLfinal * OppN_Ld + eLfinal * OppN_Ld2 + epfinal * OppN_2p + zeta_2p * Oppcldots + F0pd * OppUpdF0 + F2pd *
+                     OppN_3d + eLfinal * OppN_Ld + eLfinal * OppN_Ld2 * sigma + epfinal * OppN_2p + zeta_2p * Oppcldots + F0pd * OppUpdF0 + F2pd *
                      OppUpdF2 + G1pd * OppUpdG1 + G3pd * OppUpdG3;
 
 -- we now can create the lowest Npsi eigenstates:

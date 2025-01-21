@@ -443,8 +443,6 @@ print("Vb1g =", Vb1g)
 print("Va1g =", Va1g)
 print("Vb2g =", Vb2g)
 print("Veg =", Veg)
-print("Final =", eLfinal * OppN_Ld2 * sigma)
-print("Ground =", eL * OppN_Ld2 * sigma)
 print('=============================================\n');
 -- spectra XAS
 doXAS = false

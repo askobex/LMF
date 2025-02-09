@@ -240,6 +240,10 @@ Akm = PotentialExpandedOnClm("D4h", 2, {-2.0, 2.0, 2.0, -1.0});
 OppDs = NewOperator("CF", NF, IndexUp_3d, IndexDn_3d, Akm);
 Akm = PotentialExpandedOnClm("D4h", 2, {-6.0, -1.0, -1.0, 4.0});
 OppDt = NewOperator("CF", NF, IndexUp_3d, IndexDn_3d, Akm);
+-- Compute Indirect Hopping (t2NN)
+-- Hopping operator for t2NN between d and ligand orbitals
+Oppt2NN_p_sigma = sigma * (NewOperator("CF", NF, IndexUp_Ld, IndexDn_Ld, {1, -1, 0, 0, 0}))
+Oppt2NN_d_d = sigma * (NewOperator("CF", NF, IndexUp_3d, IndexDn_3d, {0, 0, 1, -1, 0}))
 
 -- define L-d interaction
 
@@ -268,9 +272,6 @@ OppN_3d = OppNUp_3d + OppNDn_3d
 OppNUp_Ld = NewOperator("Number", NF, IndexUp_Ld, IndexUp_Ld, {1, 1, 1, 1, 1})
 OppNDn_Ld = NewOperator("Number", NF, IndexDn_Ld, IndexDn_Ld, {1, 1, 1, 1, 1})
 OppN_Ld = OppNUp_Ld + OppNDn_Ld
-OppNUp_Ld2 = NewOperator("Number", NF, IndexUp_Ld, IndexUp_Ld, {1, 1, 1, 1, 1})
-OppNDn_Ld2 = NewOperator("Number", NF, IndexDn_Ld, IndexDn_Ld, {1, 1, 1, 1, 1})
-OppN_Ld2 = OppNUp_Ld2 + OppNDn_Ld2
 
 -- Number of electrons in each of the 3d orbitals
 Akm = PotentialExpandedOnClm("D4h", 2, {1, 0, 0, 0});
@@ -403,12 +404,12 @@ HExchange = (Hex * HexDir[1] / HexDirNorm) * OppSx + (Hex * HexDir[2] / HexDirNo
 
 Hamiltonian = HExchange + F0dd * OppF0_3d + F2dd * OppF2_3d + F4dd * OppF4_3d + tenDq * OpptenDq_3d + Ds * OppDs + Dt *
                   OppDt + zeta_3d * Oppldots_3d + Bz * (2 * OppSz_3d + OppLz_3d) + Hz * OppSz_3d + tenDqL * OpptenDq_Ld +
-                  Veg * OppVeg + Vb1g * OppVb1g + Va1g * OppVa1g + Vb2g * OppVb2g + ed * OppN_3d + eL * OppN_Ld + eL * OppN_Ld2 * sigma;
+                  Veg * OppVeg + Vb1g * OppVb1g + Va1g * OppVa1g + Vb2g * OppVb2g + ed * OppN_3d + eL * OppN_Ld;
 
 XASHamiltonian = XF0dd * OppF0_3d + XF2dd * OppF2_3d + XF4dd * OppF4_3d + tenDqF * OpptenDq_3d + DsF * OppDs + DtF *
                      OppDt + zeta_3d * Oppldots_3d + Bz * (2 * OppSz_3d + OppLz_3d) + Hz * OppSz_3d + tenDqL *
                      OpptenDq_Ld + VegF * OppVeg + Vb1gF * OppVb1g + Va1gF * OppVa1g + Vb2gF * OppVb2g + edfinal *
-                     OppN_3d + eLfinal * OppN_Ld + eLfinal * OppN_Ld2 * sigma + epfinal * OppN_2p + zeta_2p * Oppcldots + F0pd * OppUpdF0 + F2pd *
+                     OppN_3d + eLfinal * OppN_Ld + epfinal * OppN_2p + zeta_2p * Oppcldots + F0pd * OppUpdF0 + F2pd *
                      OppUpdF2 + G1pd * OppUpdG1 + G3pd * OppUpdG3;
 
 -- we now can create the lowest Npsi eigenstates:

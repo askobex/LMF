@@ -410,7 +410,7 @@ XASHamiltonian = XF0dd * OppF0_3d + XF2dd * OppF2_3d + XF4dd * OppF4_3d + tenDqF
                      OppDt + zeta_3d * Oppldots_3d + Bz * (2 * OppSz_3d + OppLz_3d) + Hz * OppSz_3d + tenDqL *
                      OpptenDq_Ld + VegF * OppVeg + Vb1gF * OppVb1g + Va1gF * OppVa1g + Vb2gF * OppVb2g + edfinal *
                      OppN_3d + eLfinal * OppN_Ld + epfinal * OppN_2p + zeta_2p * Oppcldots + F0pd * OppUpdF0 + F2pd *
-                     OppUpdF2 + G1pd * OppUpdG1 + G3pd * OppUpdG3;
+                     OppUpdF2 + G1pd * OppUpdG1 + G3pd * OppUpdG3 + Oppt2NN_p_sigma + Oppt2NN_d_d;
 
 -- we now can create the lowest Npsi eigenstates:
 -- the calculation to the lowest 3 eigenstates.

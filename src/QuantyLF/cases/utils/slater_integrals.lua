@@ -156,7 +156,19 @@ function get_slater_integrals(ion, oxy)
         end
 
     elseif ion == 24 then
-        if oxy == 2 then
+        if oxy == 1 then
+            nd = 5
+            zeta_3d = 0.031;        --- Crispy default / Cowan / de Groot (2008)
+            F2dd = 9.520;           --- Thesis de Groot (Table A.2)
+            F4dd = 5.940;           --- Thesis de Groot (Table A.2)
+            zeta_2p = 5.670;        --- Thesis de Groot (Table A.2)
+            F2pd = 5.790;           --- Thesis de Groot (Table A.2)
+            G1pd = 4.160;           --- Thesis de Groot (Table A.2)
+            G3pd = 2.370;           --- Thesis de Groot (Table A.2)
+            Xzeta_3d = 0.041;       --- de Groot & Kotani, Core Level Spectroscopy (2008)
+            XF2dd = 10.400;         --- de Groot & Kotani, Core Level Spectroscopy (2008)
+            XF4dd = 6.500;          --- de Groot & Kotani, Core Level Spectroscopy (2008)
+        elseif oxy == 2 then
             nd = 4
             zeta_3d = 0.030; --- Crispy
             F2dd = 9.649; --- Thesis de Groot

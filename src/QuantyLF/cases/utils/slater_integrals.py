@@ -3,18 +3,31 @@ def get_slater_integrals(ion, oxy):
     zeta_3d, F2dd, F4dd, zeta_2p, F2pd, G1pd, G3pd, Xzeta_3d, XF2dd, XF4dd = 0,0,0,0,0,0,0,0,0,0
 
     ## Slater integral values
+        if ion == 30:        
+           oxy == 2:
+            zeta_3d = 0.
+            F2dd = 12.854
+            F4dd = 7.980 ## initial state parameters
+            zeta_2p = 13.498
+            F2pd = 8.177
+            G1pd = 6.169
+            G3pd = 3.510 ##  final  state parameters
+            Xzeta_3d = 0.124
+            XF2dd = 13.611
+            XF4dd = 8.457 ##  final  state parameters
 
-    if ion == 29:        
-        zeta_3d = 0.102
-        F2dd = 12.854
-        F4dd = 7.980 ## initial state parameters
-        zeta_2p = 13.498
-        F2pd = 8.177
-        G1pd = 6.169
-        G3pd = 3.510 ##  final  state parameters
-        Xzeta_3d = 0.124
-        XF2dd = 13.611
-        XF4dd = 8.457 ##  final  state parameters
+    elif ion == 29:        
+        if oxy == 2:
+            zeta_3d = 0.12
+            F2dd = 12.854
+            F4dd = 7.980 ## initial state parameters
+            zeta_2p = 13.498
+            F2pd = 8.177
+            G1pd = 6.169
+            G3pd = 3.510 ##  final  state parameters
+            Xzeta_3d = 0.124
+            XF2dd = 13.611
+            XF4dd = 8.457 ##  final  state parameters
 
     elif ion == 28:
         if oxy == 2:

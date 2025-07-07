@@ -4,8 +4,8 @@ def get_slater_integrals(ion, oxy):
 
     ## Slater integral values
         if ion == 30:        
-           oxy == 2:
-            zeta_3d = 0.
+            oxy = 2
+            zeta_3d = 0.102
             F2dd = 12.854
             F4dd = 7.980 ## initial state parameters
             zeta_2p = 13.498

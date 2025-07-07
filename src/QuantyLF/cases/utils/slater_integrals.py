@@ -3,7 +3,7 @@ def get_slater_integrals(ion, oxy):
     zeta_3d, F2dd, F4dd, zeta_2p, F2pd, G1pd, G3pd, Xzeta_3d, XF2dd, XF4dd = 0,0,0,0,0,0,0,0,0,0
 
     ## Slater integral values
-        if ion == 30:        
+    if ion == 30:        
             oxy = 2
             zeta_3d = 0.102
             F2dd = 12.854

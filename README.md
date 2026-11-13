@@ -1,5 +1,11 @@
 # QuantyLF
-This is a libary to run ligand field caclulations using Quanty.
+This is a library to run ligand field calculations using Quanty, with support for multi-oxidation-state fitting.
+
+## Features
+- **Single oxidation state calculation** - Standard XAS/RIXS spectroscopy fitting
+- **Multi-oxidation-state calculation** - Blend multiple oxidation states with fitted or fixed weights
+- **Flexible broadening** - Support for multiple Lorentzians with negative centers and Gaussian broadening
+- **Robust optimization** - Uses lmfit with Powell method for fitting
 
 ## Requirements
 Python 3.10 or newer needs to be installed
@@ -12,7 +18,9 @@ $ pip install QuantyLF
 
 ## Example
 
-### Prepare directory
+### Single Oxidation State (Standard)
+
+#### Prepare directory
 Prepare the experimental XAS without header. The RIXS should all be combined in one file and the first lines needs to include excitation energies with preceeding 0. All values should be sperated by blanks. F.e.:
 
 `XAS_Exp.dat`
@@ -109,6 +117,72 @@ quantyLF.add_broadening('RIXS', [[0, 0.3], [2.7, 0.5], [8, 1]])
 quantyLF.fit('RIXS')
 ```
 
+### Multi-Oxidation-State Example
+
+Multi-oxidation-state calculation fits experimental spectra as a weighted blend of multiple oxidation states. Weights can be fitted (optimized) or fixed (user-specified).
+
+```py
+# import package
+from QuantyLF.QuantyLF import QuantyLF
+
+# create new instance
+quantyLF = QuantyLF()
+
+# load experimental data
+quantyLF.load_exp_xas('XAS_Exp.dat')
+quantyLF.load_exp_rixs('RIXS_Exp.dat')
+
+# configure edge jump
+quantyLF.config_edge_jump([[637.7, 0.14, 4], [648.2, 0.006, 8]], [600, 700], display=False)
+
+# load case and set up base parameters
+quantyLF.load_case('D3h_3d', manual=False)
+quantyLF.add_par('ion', 22, from_file=False)
+
+# Add multiple oxidation states
+# weight=None means the weight will be fitted (optimized)
+# weight=value means the weight is fixed at that value
+quantyLF.add_oxidation_state(oxy=2.5, weight=None)      # Fitted weight
+quantyLF.add_oxidation_state(oxy=3.0, weight=None)      # Fitted weight
+
+# Alternative: mix fitted and fixed weights
+# quantyLF.add_oxidation_state(oxy=2.0, weight=0.3)    # Fixed at 30%
+# quantyLF.add_oxidation_state(oxy=2.5, weight=None)   # Fitted to ~70%
+
+# Add other parameters (same as single oxidation state)
+quantyLF.add_par('Gamma1', 0.41, [0.4, 1])
+quantyLF.add_par('tenDq', 0.19, [-0.2, 0.2])
+# ... add remaining parameters ...
+
+# Broadening (supports negative centers)
+quantyLF.add_broadening('XAS', [[-3.7, 0.5], [3, 0.7], [9, 0.7]], gamma=0.5)
+quantyLF.add_broadening('RIXS', [[0, 0.3], [2.7, 0.5], [8, 1]])
+
+# Run multi-oxidation-state fitting
+quantyLF.fit('RIXS')
+
+# Output files:
+# - ParVals.txt: contains fitted weights (OxyWeight_2, OxyWeight_3, etc.)
+# - XAS_Fit_Blended.dat: blended XAS spectrum
+# - RIXS_Fit_Blended.dat: blended RIXS spectrum
+```
+
+#### Multi-Oxidation-State Workflow
+1. Each oxidation state is calculated separately
+2. Individual spectra are shifted and scaled to align with experimental data
+3. Spectra are blended using normalized weights: `blended = Σ(weight[i] × spectrum[i])`
+4. **Comparison happens on the blended spectrum only**
+5. Fitted weights are optimized to minimize the difference between blended and experimental spectra
+
+#### Weight Modes
+- **Fitted weights** (`weight=None`): optimized by the fitting algorithm
+- **Fixed weights** (`weight=0.3`): specified by user, not changed during fitting
+- **Mixed weights**: combine fitted and fixed weights in the same calculation
+
+**Note**: Weights are automatically normalized during fitting so they always sum to 1.0
+
+
+
 ### Running calculation using a SLURM job
 Create a job file in this style:
 ```bash
@@ -138,7 +212,7 @@ pip install -U lmfit
 pip install --no-index h5py
 pip install --no-index matplotlib
 pip install --no-index scipy
-pip install https://github.com/CMM02/QuantyLF/archive/refs/heads/main.zip
+pip install https://github.com/askobex/LMF/archive/refs/heads/main.zip
 
 
 #export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
@@ -242,12 +316,69 @@ Parameters
 type: str
     "XAS" or "RIXS"
 lorenzians: list of 2-element lists
-    List of lorenzian broadening parameters (center, width)
+    List of lorentzian broadening parameters [center, width]
+    - center: peak position on energy axis (can be negative, zero, or positive)
+    - width: broadening amount (must be positive, typically 0.3-2 eV)
 gamma: float, optional
-    Guassian broadening parameter
+    Gaussian broadening parameter (must be non-negative)
+
+Examples
+--------
+# Two Lorentzians at -2 eV and +5 eV with Gaussian broadening
+quantyLF.add_broadening('XAS', [[-2, 1], [5, 0.5]], gamma=0.3)
+
+# Single Lorentzian at 0 eV
+quantyLF.add_broadening('RIXS', [[0, 0.8]], gamma=0.2)
 """
 add_broadening(type, lorenzians, gamma=0)
 ```
+
+### add_oxidation_state
+```py
+"""
+Add an oxidation state to the multi-oxidation-state calculation
+
+Parameters
+----------
+oxy: float
+    Oxidation state value (passed to Quanty calculation)
+weight: float or None, optional
+    Weight for this oxidation state in the blend
+    - If None (default): weight is fitted (optimized)
+    - If float: weight is fixed at this value (not optimized)
+    
+Notes
+-----
+- Multiple oxidation states must be added for multi-oxidation-state fitting
+- Weights are automatically normalized so they sum to 1.0
+- Can mix fitted (weight=None) and fixed weights in the same calculation
+- Example: add_oxidation_state(oxy=2.5, weight=None) adds oxidation state 2.5 with fitted weight
+- Example: add_oxidation_state(oxy=3.0, weight=0.4) adds oxidation state 3.0 with fixed weight of 0.4
+"""
+add_oxidation_state(oxy, weight=None)
+```
+
+### reset_oxidation_states
+```py
+"""
+Reset all oxidation states (clear multi-oxidation-state setup)
+
+Returns the instance to single oxidation state mode
+"""
+reset_oxidation_states()
+```
+
+### get_oxidation_states
+```py
+"""
+Get list of all configured oxidation states
+
+Returns
+-------
+list of tuples
+    Each tuple contains (oxy_value, weight) where weight is None if fitted, or a float if fixed
+"""
+get_oxidation_states()
 
 ### fit
 ```py
@@ -258,9 +389,21 @@ Parameters
 ----------
 mode: str
     "XAS" or "RIXS". If "XAS", only the XAS data is fitted. If "RIXS", both XAS and RIXS data is fitted
+
+Notes
+-----
+Multi-Oxidation-State Fitting:
+- If multiple oxidation states are added, fits blended spectrum
+- Each oxidation state calculated separately
+- Individual spectra shifted/scaled to align with experimental data
+- Spectra blended using normalized weights
+- Comparison happens on the blended spectrum only
+- Output includes:
+  * ParVals.txt: contains fitted weights (OxyWeight_<oxy>, etc.)
+  * XAS_Fit_Blended.dat: blended XAS spectrum
+  * RIXS_Fit_Blended.dat: blended RIXS spectrum (if RIXS mode)
 """
 fit(type)
-```
 
 ### load_exp_xas
 ```py
@@ -334,4 +477,68 @@ export_pars(path='ExportedPars.csv', ignore_pars = ['XAS_Gamma', 'XAS_Broad', 'R
 ```
 
 ## Develop new cases
-To develop new cases, the struture of the other `.lua`-files can be used. Clone the [GitHub](https://github.com/CMM02/QuantyLF) repository and checkout the `dev` branch. Copy the file and the utils directory from [this directory](https://github.com/CMM02/QuantyLF/tree/main/src/QuantyLF/cases) into the directory of choice. Make the changes wanted. After that add the case file to the same [directory](https://github.com/CMM02/QuantyLF/tree/main/src/QuantyLF/cases). Increment the version number in the `setup.cfg` and push the `dev` branch. On GitHub create a pull request from `dev` to `main` and merge. Check if the [publishing action](https://github.com/CMM02/QuantyLF/actions) runs through.
+To develop new cases, the structure of the other `.lua`-files can be used. Clone the [GitHub](https://github.com/askobex/LMF) repository and checkout the `dev` branch. Copy the file and the utils directory from [this directory](https://github.com/askobex/LMF/tree/main/src/QuantyLF/cases) into the directory of choice. Make the changes wanted. After that add the case file to the same [directory](https://github.com/askobex/LMF/tree/main/src/QuantyLF/cases). Increment the version number in the `setup.cfg` and push the `dev` branch. On GitHub create a pull request from `dev` to `main` and merge. Check if the [publishing action](https://github.com/askobex/LMF/actions) runs through.
+
+## Multi-Oxidation-State Fitting Guide
+
+### Overview
+Multi-oxidation-state fitting allows fitting experimental XAS/RIXS spectra as a weighted blend of multiple oxidation states. This is useful when experimental data contains contributions from multiple oxidation states that coexist in the sample.
+
+### Key Concepts
+
+**Fitted vs Fixed Weights**
+- **Fitted weight** (`weight=None`): The weight is optimized during fitting to best match experimental data
+- **Fixed weight** (`weight=0.3`): The weight is set to a fixed value and not optimized
+
+**Weight Normalization**
+- Weights are automatically normalized so they always sum to exactly 1.0
+- This occurs during each optimization iteration
+- Allows flexible fitting without needing constraint equations
+
+**Blending Process**
+1. Calculate spectrum for each oxidation state separately
+2. Shift each spectrum to align XAS peak with experimental peak
+3. Scale spectrum intensity if in RIXS mode
+4. Apply normalized weight to each spectrum
+5. Sum weighted spectra: `blended = Σ(weight[i] × spectrum[i])`
+
+**Comparison and Optimization**
+- Comparison to experimental data happens **only on the blended spectrum**
+- Individual oxidation state spectra are not compared to experimental data
+- Optimizer (Powell method) minimizes the difference between blended and experimental spectra
+- Fitted weights converge to physically reasonable values
+
+### Parameter Bounds
+| Parameter | Range | Notes |
+|-----------|-------|-------|
+| Lorentzian center | [-100, 100] eV | Position on energy axis; can be negative |
+| Lorentzian width | [0.001, 20] eV | Broadening amount; must be positive |
+| Gamma (Gaussian) | [0, 10] eV | Gaussian broadening; must be non-negative |
+| Weights | [0.001, 1.0] | Normalized to sum to 1.0 during fitting |
+
+### Output Files
+When fitting with multiple oxidation states, the following files are generated:
+- **ParVals.txt**: Contains all fitted parameters including `OxyWeight_<oxy>` for each oxidation state
+- **XAS_Fit_Blended.dat**: Blended XAS spectrum (experimental vs fitted)
+- **RIXS_Fit_Blended.dat**: Blended RIXS spectrum (experimental vs fitted) - only in RIXS mode
+- **ParVals_oxy<N>.txt**: Individual parameter files for each oxidation state (if generated by Quanty)
+
+### Common Issues and Solutions
+
+**Weights not converging to expected values**
+- Check that initial weights are reasonable
+- Ensure oxidation state parameters are properly configured
+- Verify experimental data quality
+- Try adjusting optimization parameters (maxfev, tolerance)
+
+**Broadening with negative centers**
+- Negative centers are valid (represent position on energy axis)
+- Example: `[[-2, 1]]` means center at -2 eV with 1 eV broadening
+- Only width must be positive; center can be any value
+
+**RIXS with multiple oxidation states**
+- RIXS energies are automatically shifted by the XAS shift amount for each oxidation state
+- Amplitude scaling via NNLS is applied to each state independently
+- Blended RIXS spectrum includes contributions from all oxidation states
+
+For more details, see `FINAL_IMPLEMENTATION_STATUS.md`
